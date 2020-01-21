@@ -7,12 +7,12 @@ const app = express();
 
 
 aws.config.update({
-    accessKeyId: 'AKIAJFN2MKG5NOMBH4SA', 
-    secretAccessKey: 'S968cyP86wYzq5vX+XlID5QcyhC7Vu/YERzIjAu2', 
-    region: 'ap-south-1',
+    accessKeyId: '__YOUR_ACCESS_KEY__', 
+    secretAccessKey: '__YOUR_SECRET_ACCESS_KEY__', 
+    region: '__BUCKET_REGION__',
     signatureVersion: 'v4'
 })
-const S3_BUCKET_NAME = 'elibrary-content';
+const S3_BUCKET_NAME = '__BUCKET_NAME__';
 
 app.use(bodyParser.urlencoded({extended: false}))
 app.set('views', './views');
