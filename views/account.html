@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<input type="file" id="file-input" multiple>
+<p id="status">Please select a file</p>
+<!-- <img id="preview" src="/images/avatar.png"> -->
+
+<form method="POST" action="/save-details">
+  <input type="hidden" id="content" name="content" value="">
+  <input type="text" name="username" placeholder="Username"><br>
+  <input type="text" name="full-name" placeholder="Full name"><br><br>
+  <input type="submit" value="Update profile">
+</form>
+
+<script>
+    
+    //configure it loop files and create [{name: name, path: url}] on backend
+    document.querySelector('#file-input').onchange = () => {
+        const files = document.querySelector('#file-input').files;
+        const file = files[0];
+        if(file == null)
+            return alert('No File Selected');
+        Array.from(files).forEach(file => {
+            console.log(file);
+            getSignedRequest(file);
+        })
+    }
+
+    function getSignedRequest(file) {
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/sign?file-name=${file.name}&file-type=${file.type}`);
+        xhr.onreadystatechange = () => {
+
+            if(xhr.readyState === 4) {
+                if(xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    uploadFile(file, response.signedRequest, response.url)
+                }
+            }
+        }
+        xhr.send();
+
+    }
+
+    function uploadFile(file, signedRequest, url){
+        const xhr = new XMLHttpRequest();
+        xhr.open('PUT', signedRequest);
+        xhr.onreadystatechange = () => {
+            if(xhr.readyState === 4) {
+                console.log(xhr.responseText)
+                if(xhr.status === 200) {
+                    
+                    let obj = {};
+                    obj.name = file.name;
+                    obj.path = url;
+                    obj.type = file.type;
+
+                    document.getElementById('content').value += `|${JSON.stringify(obj)}`;
+                }
+                else {
+                    alert('file not uploaded');
+                }
+            }
+        }
+        xhr.send(file);
+    }
+
+</script>
+</body>
+</html>
+

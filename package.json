@@ -4,7 +4,7 @@
   "description": "App to upload files to Amazon S3 Server",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/MohdImran001/amazons3-direct-uploader/issues"
   },
-  "homepage": "https://github.com/MohdImran001/amazons3-direct-uploader#readme"
+  "homepage": "https://github.com/MohdImran001/amazons3-direct-uploader#readme",
+  "dependencies": {
+    "aws-sdk": "^2.606.0",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1"
+  }
 }
